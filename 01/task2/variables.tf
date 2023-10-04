@@ -43,56 +43,56 @@ variable "vms_ssh_root_key" {
   description = "ssh-keygen -t ed25519"
 }
 
-### VM vars
+### vm_web vars
 variable "vm_web_name" {
   type        = string
   default     = "netology-develop-platform-web"
   description = "name for Virtual Machine"
 }
 
-variable "vm_image" {
+variable "vm_web_image" {
   type        = string
   default     = "ubuntu-2004-lts"
   description = "image name"
 }
 
-variable "vm_platform" {
+variable "vm_web_platform" {
   type        = string
   default     = "standard-v1"
   description = "https://cloud.yandex.ru/docs/compute/concepts/vm-platforms#gpu-platforms"
 }
 
-variable "vm_core_count" {
+variable "vm_web_core_count" {
   type        = number
   default     = "2"
   description = "https://cloud.yandex.ru/docs/compute/concepts/performance-levels"
 }
 
-variable "vm_memory" {
+variable "vm_web_memory" {
   type        = number
   default     = "1"
   description = "https://cloud.yandex.ru/docs/compute/concepts/performance-levels"
 }
 
-variable "vm_core_fraction" {
+variable "vm_web_core_fraction" {
   type        = number
   default     = "5"
   description = "https://cloud.yandex.ru/docs/compute/concepts/performance-levels"
 }
 
-variable "vm_preemptible" {
+variable "vm_web_preemptible" {
   type        = bool
   default     = "true" #or false
   description = "https://cloud.yandex.ru/docs/compute/concepts/preemptible-vm"
 }
 
-variable "vm_nat" {
+variable "vm_web_nat" {
   type        = bool
   default     = "true" #or false
   description = "(Optional) Provide a public address, for instance, to access the internet over NAT."
 }
 
-variable "vm_serial_port" {
+variable "vm_web_serial_port" {
   type        = number
   default     = "1" #or 0
   description = "Flag that enables access to the serial console. Default value 0 (disabled)."
