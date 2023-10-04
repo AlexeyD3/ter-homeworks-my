@@ -25,6 +25,10 @@ variable "vms_resources" {
   description = "https://cloud.yandex.ru/docs/compute/concepts/performance-levels"
 }
 
+====================================================================================
+ Закоментированы переменные, которые были заменены блоком переменных vms_resources
+====================================================================================
+
 ### vm_web vars
 
 #variable "vm_web_image" {
