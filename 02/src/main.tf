@@ -8,17 +8,16 @@ resource "yandex_vpc_subnet" "develop" {
   v4_cidr_blocks = var.default_cidr
 }
 
-
 data "yandex_compute_image" "ubuntu" {
-  family = "ubuntu-2004-lts"
+  family = var.vms_resources.web.image
 }
 resource "yandex_compute_instance" "platform" {
-  name        = "netology-develop-platform-web"
-  platform_id = "standart-v4"
+  name        = local.web
+  platform_id = var.vms_resources.web.platform
   resources {
-    cores         = 1
-    memory        = 1
-    core_fraction = 5
+    cores         = var.vms_resources.web.core_count
+    memory        = var.vms_resources.web.memory
+    core_fraction = var.vms_resources.web.core_fraction
   }
   boot_disk {
     initialize_params {
@@ -26,16 +25,44 @@ resource "yandex_compute_instance" "platform" {
     }
   }
   scheduling_policy {
-    preemptible = true
+    preemptible = var.vms_resources.web.preemptible
   }
   network_interface {
     subnet_id = yandex_vpc_subnet.develop.id
-    nat       = true
+    nat       = var.vms_resources.web.nat
   }
 
   metadata = {
-    serial-port-enable = 1
-    ssh-keys           = "ubuntu:${var.vms_ssh_root_key}"
+    serial-port-enable = var.vms_ssh.serial-port-enable
+    ssh-keys           = "${var.vms_ssh_user}:${file(var.vms_ssh.pub_key)}"
+  }
+
+}
+
+resource "yandex_compute_instance" "database" {
+  name        = local.db
+  platform_id = var.vms_resources.db.platform
+  resources {
+    cores         = var.vms_resources.db.core_count
+    memory        = var.vms_resources.db.memory
+    core_fraction = var.vms_resources.db.core_fraction
+  }
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu.image_id
+    }
+  }
+  scheduling_policy {
+    preemptible = var.vms_resources.db.preemptible
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.develop.id
+    nat       = var.vms_resources.db.nat
+  }
+
+  metadata = {
+    serial-port-enable = var.vms_ssh.serial-port-enable
+    ssh-keys           = "${var.vms_ssh_user}:${file(var.vms_ssh.pub_key)}"
   }
 
 }

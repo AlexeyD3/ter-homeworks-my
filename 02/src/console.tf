@@ -1,4 +1,8 @@
 ##Этот файл для 7 задания!!
+#John is admin for production server based on OS ubuntu-20-04 with X vcpu, Y ram and Z virtual disks
+#format("My first name is %s and my last name is %s and my age is %d", local.test_map.admin, var.last-name, var.age)
+
+
 locals {
 
   test_list = ["develop", "staging", "production"]
