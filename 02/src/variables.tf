@@ -36,15 +36,10 @@ variable "vpc_name" {
 
 ###ssh vars
 
-variable "vms_ssh_user" {
-  type        = string
-  default     = "ubuntu"
-  description = "check VM image"
-}
-
 variable "vms_ssh" {
   type = map(any)
   default = {
+    user = "ubuntu"
     serial-port-enable = 1
     pub_key            = "~/.ssh/id_ed25519.pub"
   }

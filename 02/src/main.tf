@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "platform" {
 
   metadata = {
     serial-port-enable = var.vms_ssh.serial-port-enable
-    ssh-keys           = "${var.vms_ssh_user}:${file(var.vms_ssh.pub_key)}"
+    ssh-keys           = "${var.vms_ssh.user}:${file(var.vms_ssh.pub_key)}"
   }
 
 }
@@ -62,7 +62,7 @@ resource "yandex_compute_instance" "database" {
 
   metadata = {
     serial-port-enable = var.vms_ssh.serial-port-enable
-    ssh-keys           = "${var.vms_ssh_user}:${file(var.vms_ssh.pub_key)}"
+    ssh-keys           = "${var.vms_ssh.user}:${file(var.vms_ssh.pub_key)}"
   }
 
 }
