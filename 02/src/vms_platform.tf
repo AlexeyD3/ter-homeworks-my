@@ -9,7 +9,15 @@ variable name {
 }
 
 variable "vms_resources" {
-  type        = map(any)
+  type        = map(object({
+    image         = string
+    core_count    = number
+    memory        = number
+    core_fraction = number
+    preemptible   = bool
+    platform      = string
+    nat           = bool
+    }))
   default     = {
     web = {
       image         = "ubuntu-2004-lts"
