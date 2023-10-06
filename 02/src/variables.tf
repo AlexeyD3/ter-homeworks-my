@@ -37,12 +37,17 @@ variable "vpc_name" {
 ###ssh vars
 
 variable "vms_ssh" {
-  type = map(any)
+
   default = {
     user = "ubuntu"
     serial-port-enable = 1
     pub_key            = "~/.ssh/id_ed25519.pub"
   }
+  type = object({
+    user = string
+    serial-port-enable = number
+    pub_key            = string
+  })
 }
 
 
