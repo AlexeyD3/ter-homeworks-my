@@ -58,7 +58,7 @@ variable "security_group_egress" {
 resource "yandex_vpc_security_group" "example" {
   name       = "example_dynamic"
   network_id = yandex_vpc_network.develop.id
-  folder_id  = var.folder_id
+  folder_id  = var.yc_folder_id
 
   dynamic "ingress" {
     for_each = var.security_group_ingress
