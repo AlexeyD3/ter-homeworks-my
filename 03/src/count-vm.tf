@@ -5,8 +5,8 @@ data "yandex_compute_image" "ubuntu" {
 }
 
 resource "yandex_compute_instance" "for-web" {
-  count = var.vms_resources.web.count
-  name = "${local.web}-${count.index + 1}"
+  count       = var.vms_resources.web.count
+  name        = "${local.web}-${count.index + 1}"
   platform_id = var.vms_resources.web.platform
   resources {
     cores         = var.vms_resources.web.core_count
@@ -23,8 +23,8 @@ resource "yandex_compute_instance" "for-web" {
   }
   network_interface {
     security_group_ids = [yandex_vpc_security_group.example.id]
-    subnet_id = yandex_vpc_subnet.develop.id
-    nat       = var.vms_resources.web.nat
+    subnet_id          = yandex_vpc_subnet.develop.id
+    nat                = var.vms_resources.web.nat
   }
 
   metadata = {

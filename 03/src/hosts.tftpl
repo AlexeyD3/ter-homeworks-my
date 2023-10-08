@@ -1,18 +1,18 @@
 [webservers]
-%{~ for i in webservers ~}
+%{~ for instance in webservers ~}
 
-${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
+${instance.name}   ansible_host=%{ if instance.network_interface[0].nat_ip_address != "" }${instance.network_interface[0].nat_ip_address}%{ else }${instance.network_interface[0].ip_address}%{ endif }
 %{~ endfor }
 
 [databases]
-%{~ for i in databases ~}
+%{~ for instance in databases ~}
 
-${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
+${instance.name}   ansible_host=%{ if instance.network_interface[0].nat_ip_address != "" }${instance.network_interface[0].nat_ip_address}%{ else }${instance.network_interface[0].ip_address}%{ endif }
 %{~ endfor }
 
 [storages]
-%{~ for i in storages ~}
+%{~ for instance in storages ~}
 
-${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
+${instance.name}   ansible_host=%{ if instance.network_interface[0].nat_ip_address != "" }${instance.network_interface[0].nat_ip_address}%{ else }${instance.network_interface[0].ip_address}%{ endif }
 %{~ endfor ~}
 

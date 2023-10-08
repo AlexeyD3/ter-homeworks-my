@@ -1,7 +1,7 @@
 resource "yandex_compute_instance" "node" {
-  depends_on = [yandex_compute_instance.for-web]
-  for_each = var.vms_node_resources
-  name = "${local.node}-${each.key}"
+  depends_on  = [yandex_compute_instance.for-web]
+  for_each    = var.vms_node_resources
+  name        = "${local.node}-${each.key}"
   platform_id = var.vms_node_resources[each.key].platform
   resources {
     cores         = var.vms_node_resources[each.key].core_count
@@ -18,8 +18,8 @@ resource "yandex_compute_instance" "node" {
   }
   network_interface {
     security_group_ids = [yandex_vpc_security_group.example.id]
-    subnet_id = yandex_vpc_subnet.develop.id
-    nat       = var.vms_node_resources[each.key].nat
+    subnet_id          = yandex_vpc_subnet.develop.id
+    nat                = var.vms_node_resources[each.key].nat
   }
 
   metadata = {

@@ -32,6 +32,7 @@ resource "yandex_compute_instance" "storage" {
     preemptible = var.vms_resources.storage.preemptible
   }
   network_interface {
+    security_group_ids = [yandex_vpc_security_group.example.id]
     subnet_id = yandex_vpc_subnet.develop.id
     nat       = var.vms_resources.storage.nat
   }

@@ -40,3 +40,14 @@ variable "vms_resources" {
   }
   description = "https://cloud.yandex.ru/docs/compute/concepts/performance-levels"
 }
+
+#### VMs list
+#variable "vmlist" {
+#  type = list(object(
+#    {
+#      name = string
+#      id = string
+#      fqdn = string
+#    }))
+#  default = []
+#}

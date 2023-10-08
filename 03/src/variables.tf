@@ -76,14 +76,14 @@ variable "vms_resources" {
       nat           = true
     }
     storage = {
-      count = 2
+      count         = 1
       image         = "ubuntu-2004-lts"
       core_count    = 2
       memory        = 1
       core_fraction = 5
       preemptible   = true
       platform      = "standard-v1"
-      nat           = true
+      nat           = false
     }
   }
   type        = map(object({
