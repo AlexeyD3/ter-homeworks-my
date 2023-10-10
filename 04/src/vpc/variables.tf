@@ -19,13 +19,8 @@ variable "yc_folder_id" {
 
 variable "zone" {
   type        = string
-#  default     = "ru-central1-a"
-  description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
-}
-variable "cidr_blocks" {
-  type        = list(string)
-#  default     = ["10.0.1.0/24"]
-  description = "https://cloud.yandex.ru/docs/vpc/operations/subnet-create"
+  default     = "ru-central1-a"
+  description = "VPC provider zone"
 }
 
 variable "vpc_name" {
@@ -34,12 +29,10 @@ variable "vpc_name" {
   description = "VPC network&subnet name"
 }
 
-#variable "network_id" {
-#  type = string
-#  default = null
-#}
-#
-#variable "subnet_ids" {
-#  type = string
-#  default = null
-#}
+variable "subnets" {
+  type = list(object({
+    zone           = string
+    v4_cidr_blocks = string
+  }))
+  description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
+}
