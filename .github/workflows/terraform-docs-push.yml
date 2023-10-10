@@ -16,4 +16,4 @@ jobs:
         working-dir: 04/src/vpc/
         output-file: terr-docs.md
         output-method: inject
-        git-push: "true"
+        git-push: "false"
