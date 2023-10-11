@@ -28,19 +28,12 @@ variable "cluster_id" {
   type = string
 }
 
-variable "mysql_db" {
-  type = object({
-    cluster_id = string
-    name = string
-  })
-  default = {
-    cluster_id = null
-    name = "db1"
-  }
+variable "db_name" {
+  type = string
 }
 
 ### Mysql user
-variable "name" {
+variable "user_name" {
   type = string
 }
 

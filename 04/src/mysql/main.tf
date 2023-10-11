@@ -12,16 +12,9 @@ resource "yandex_mdb_mysql_cluster" "netology" {
     disk_size          = var.resource_cluster.disk_size
   }
 
-
-#  host {
-#    zone             = element(var.subnet_zones, count.index)
-#    subnet_id        = element(var.subnet_ids, count.index)
-#    assign_public_ip = true
-
     dynamic "host" {
       for_each = range(local.host_count)
       content {
-        #      name = "host-${host.key + 1}"
         zone             = element(var.subnet_zones, "${host.key + 1}")
         subnet_id        = element(var.subnet_ids, "${host.key + 1}")
         assign_public_ip = true
@@ -30,18 +23,4 @@ resource "yandex_mdb_mysql_cluster" "netology" {
 
 }
 
-
-
-#        zone             = element(var.subnet_zones, "${host.key + 1}")
-#        subnet_id        = element(var.subnet_ids, "${host.key + 1}")
-#  host {
-#    zone             = element(var.subnet_zones, count.index+1)
-#    subnet_id        = element(var.subnet_ids, count.index+1)
-#    assign_public_ip = true
-#  }
-#  host {
-#    zone             = element(var.subnet_zones, count.index+2)
-#    subnet_id        = element(var.subnet_ids, count.index+2)
-#    assign_public_ip = true
-#  }
 

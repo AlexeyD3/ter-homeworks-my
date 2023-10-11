@@ -50,14 +50,14 @@ variable "mysql_cluster" {
 
 variable "resource_cluster" {
   default = {
-    preset_id = "s2.micro"
-    disk_type_id       = "network-ssd"
-    disk_size          = 10
+    preset_id    = "s2.micro"
+    disk_type_id = "network-ssd"
+    disk_size    = 10
   }
   type = object({
-    preset_id = string
-    disk_type_id       = string
-    disk_size          = number
+    preset_id    = string
+    disk_type_id = string
+    disk_size    = number
   })
 }
 
@@ -69,13 +69,8 @@ variable "subnet_ids" {
   type = list(string)
 }
 
-variable "config_cluster" {
-  type = bool
-  default = true
+variable "HA" {
+  type        = bool
+  default     = null
   description = "change to true for cluster with 3 hosts, or false for cluster wit 1 host"
 }
-
-#variable "cluster_id" {
-#  type = string
-#}
-
