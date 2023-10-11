@@ -1,0 +1,62 @@
+###cloud vars
+variable "yc_token" {
+  type        = string
+  sensitive   = true
+  description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
+}
+
+variable "yc_cloud_id" {
+  type        = string
+  sensitive   = true
+  description = "https://cloud.yandex.ru/docs/resource-manager/operations/cloud/get-id"
+}
+
+variable "yc_folder_id" {
+  type        = string
+  sensitive   = true
+  description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
+}
+
+variable "zone" {
+  type        = string
+  default     = "ru-central1-a"
+  description = "VPC provider zone"
+}
+
+variable "name" {
+  type        = string
+  default     = null
+}
+
+variable "network_id" {
+  type        = string
+  default     = null
+}
+
+variable "mysql_cluster" {
+  default = {
+    environment         = "PRESTABLE"
+    version             = "8.0"
+    security_group_ids  = null
+    deletion_protection = false
+  }
+  type = object({
+    environment         = string
+    version             = string
+    security_group_ids  = list(string)
+    deletion_protection = bool
+  })
+}
+variable "subnet_zones" {
+  type = list(string)
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "config_cluster" {
+  type = bool
+  default = false
+}
+
