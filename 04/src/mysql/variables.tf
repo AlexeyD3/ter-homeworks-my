@@ -47,6 +47,20 @@ variable "mysql_cluster" {
     deletion_protection = bool
   })
 }
+
+variable "resource_cluster" {
+  default = {
+    preset_id = "s2.micro"
+    disk_type_id       = "network-ssd"
+    disk_size          = 10
+  }
+  type = object({
+    preset_id = string
+    disk_type_id       = string
+    disk_size          = number
+  })
+}
+
 variable "subnet_zones" {
   type = list(string)
 }
@@ -57,6 +71,11 @@ variable "subnet_ids" {
 
 variable "config_cluster" {
   type = bool
-  default = false
+  default = true
+  description = "change to true for cluster with 3 hosts, or false for cluster wit 1 host"
 }
+
+#variable "cluster_id" {
+#  type = string
+#}
 
