@@ -23,14 +23,13 @@ variable "zone" {
   description = "VPC provider zone"
 }
 
+### MySQL cluster vars
 variable "name" {
   type        = string
-  default     = null
 }
 
 variable "network_id" {
   type        = string
-  default     = null
 }
 
 variable "mysql_cluster" {
@@ -71,6 +70,5 @@ variable "subnet_ids" {
 
 variable "HA" {
   type        = bool
-  default     = null
   description = "change to true for cluster with 3 hosts, or false for cluster wit 1 host"
 }

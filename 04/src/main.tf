@@ -1,3 +1,4 @@
+# Create network and subnets
 module "vpc" {
   source       = "./vpc"
   vpc_name     = "develop"
@@ -11,6 +12,7 @@ module "vpc" {
   ]
 }
 
+# Create VMs for nginx
 module "test-vm" {
   source          = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name        = "develop"
@@ -29,7 +31,7 @@ module "test-vm" {
 
 }
 
-#Пример передачи cloud-config в ВМ для демонстрации №3
+# Cloud-init install nginx on VMs
 data "template_file" "cloudinit" {
   template = file("./cloud-init.yml")
 
@@ -39,6 +41,7 @@ data "template_file" "cloudinit" {
   }
 }
 
+# Create MySQL Cluster (task 5.1)
 module "mysql" {
   source       = "./mysql"
   name         = "managed"
@@ -51,6 +54,7 @@ module "mysql" {
   yc_folder_id = var.yc_folder_id
 }
 
+# Create MySQL user & database (task 5.2)
 module "mysql-user-db" {
   source       = "./mysql-user-db"
   cluster_id   = module.mysql.cluster_id
@@ -61,6 +65,7 @@ module "mysql-user-db" {
   yc_folder_id = var.yc_folder_id
 }
 
+# Create MySQL Cluster (task 5.3)
 module "mysql_example" {
   source       = "./mysql"
   name         = "example"
@@ -73,6 +78,7 @@ module "mysql_example" {
   yc_folder_id = var.yc_folder_id
 }
 
+# Create MySQL user & database (task 5.3)
 module "mysql-app-test" {
   source       = "./mysql-user-db"
   cluster_id   = module.mysql_example.cluster_id
