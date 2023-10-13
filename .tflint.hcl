@@ -1,7 +1,7 @@
 config {
 format = "compact"
 plugin_dir = "~/.tflint.d/plugins"
-module = true
+module = false
 }
 plugin "terraform" {
 enabled = true
