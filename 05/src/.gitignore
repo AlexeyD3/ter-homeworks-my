@@ -1,7 +1,8 @@
 # Local .terraform directories and files
+.external_modules
 **/.terraform/*
 <<<<<<< HEAD
-.terraform
+../.terraform
 =======
 .terraform*
 >>>>>>> origin/terraform-05
