@@ -1,0 +1,19 @@
+# Local .terraform directories and files
+**/.terraform/*
+<<<<<<< HEAD
+.terraform
+=======
+.terraform*
+>>>>>>> origin/terraform-05
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# own secret vars store.
+<<<<<<< HEAD
+personal.auto.tfvars
+**/**/personal.auto.tfvars
+=======
+personal.auto.tfvars
+>>>>>>> origin/terraform-05
