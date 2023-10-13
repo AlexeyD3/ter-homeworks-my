@@ -2,7 +2,7 @@
 name: Checkov
 on:
   push:
-    branches: [ terraform-05 ]
+    branches: [ terraform-hotfix ]
   pull_request:
 
 defaults:
