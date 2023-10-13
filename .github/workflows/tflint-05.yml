@@ -40,6 +40,7 @@ jobs:
     - uses: terraform-linters/tflint-load-config-action@v1
       with:
         source-repo: me/tflint-config
-    - name: Run TFLint
-      run: |
-        find 05 -type f -name "*.tf" -exec tflint {} +
+    - run: tflint -f compact    
+    # - name: Run TFLint
+    #   run: |
+    #     find 05 -type f -name "*.tf" -exec tflint {} +
