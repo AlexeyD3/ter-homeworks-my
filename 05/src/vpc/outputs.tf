@@ -3,9 +3,9 @@ output "network_id" {
 }
 
 output "availability_zone" {
-  value = [yandex_vpc_subnet.develop.*.zone]
+  value = [yandex_vpc_subnet.develop[*].zone]
 }
 
 output "subnet_ids" {
-  value = [yandex_vpc_subnet.develop.*.id]
+  value = [yandex_vpc_subnet.develop[*].id]
 }

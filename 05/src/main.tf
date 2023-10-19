@@ -11,7 +11,7 @@ module "vpc" {
 
 # Create VMs for nginx
 module "test-vm" {
-  source          = "git::https://github.com/udjin10/yandex_compute_instance?ref=95c286e"
+  source          = "git::https://github.com/AlexeyD3/yandex_compute_instance?ref=11910d9"
   env_name        = var.nginx_vm.env_name
   instance_name   = var.nginx_vm.instance_name
   instance_count  = var.nginx_vm.instance_count
