@@ -56,6 +56,7 @@ module "mysql" {
 
 # Create MySQL user & database (task 5.2)
 module "mysql-user-db" {
+  depends_on = [module.mysql]
   source       = "./mysql-user-db"
   cluster_id   = module.mysql.cluster_id
   user_name    = "user"
@@ -80,6 +81,7 @@ module "mysql_example" {
 
 # Create MySQL user & database (task 5.3)
 module "mysql-app-test" {
+  depends_on = [module.mysql_example]
   source       = "./mysql-user-db"
   cluster_id   = module.mysql_example.cluster_id
   db_name      = "test"
