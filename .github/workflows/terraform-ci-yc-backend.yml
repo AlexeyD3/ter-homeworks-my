@@ -37,10 +37,10 @@ jobs:
         env:
           JSON_KEY: ${{ secrets.YC_SERVICE_ACCOUNT_KEY }}
         run: |
-          echo $JSON_KEY > ~/.authorized_key.json
+          echo $JSON_KEY > ./tmp/.authorized_key.json
 
       - name: Terraform Init
-        run: terraform init -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
+        run: terraform init #-backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
 
       - name: Terraform Plan
         run: terraform plan
