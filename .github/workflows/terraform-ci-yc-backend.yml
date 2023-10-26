@@ -49,10 +49,13 @@ jobs:
         run: terraform init -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out="planfile"
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve "planfile"
 
 #  tflint-test:
 #    runs-on: ${{ matrix.os }}
