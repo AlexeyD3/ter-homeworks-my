@@ -13,7 +13,61 @@ on:
       - '05/src/**'
 
 jobs:
+
+  tflint-test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+      name: Checkout source code
+
+    - uses: actions/cache@v3
+      name: Cache plugin dir
+      with:
+        path: ~/.tflint.d/plugins
+        key: ${{ matrix.os }}-tflint-${{ hashFiles('..tflint.hcl') }}
+
+    - uses: terraform-linters/setup-tflint@v3
+      name: Setup TFLint
+      with:
+        tflint_version: v0.48.0
+
+    - name: Show version
+      run: tflint --version
+
+    - name: Init TFLint
+      run: tflint --init
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - uses: terraform-linters/setup-tflint@v3
+    - uses: terraform-linters/tflint-load-config-action@v1
+      with:
+        source-repo: "AlexeyD3/ter-homeworks-my"
+        source-ref: terraform-05
+    - run: tflint --format=compact --recursive --color #-f compact
+
+  checkov-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - name: Test with Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: 05/src
+          framework: terraform
+
   terraform:
+    needs: [checkov-test, tflint-test]
     name: "Terraform"
     runs-on: ubuntu-latest
     env:
@@ -32,12 +86,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-#      - name: Configure Yandex Cloud credentials
-#        uses: yc-actions/yc-iam-token@v1
-#        with:
-#          yc-sa-json-credentials: ${{ secrets.YC_KEY }}
-#      - name: "Mirror for YC provider"
-#        run: cat <<EOF >> ~/.terraformrc \n provider_installation { network_mirror { url = \"https://terraform-mirror.yandexcloud.net/\" include = [\"registry.terraform.io/*/*\"] } direct { exclude = [\"registry.terraform.io/*/*\"] } } \n EOF
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -98,4 +146,4 @@ jobs:
 
       - name: Terraform Apply
 #        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}" -auto-approve
+        run: terraform destroy -auto-approve
