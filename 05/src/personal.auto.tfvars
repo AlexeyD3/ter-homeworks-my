@@ -1,3 +1,3 @@
 token     = var.yc_token
-cloud_id  = var.yc_cloud_id
-folder_id = var.yc_folder_id
+cloud_id  = b1gm5cnlfgcnmeq4an1v
+folder_id = b1ggvhbs15psoc1vgtkc
