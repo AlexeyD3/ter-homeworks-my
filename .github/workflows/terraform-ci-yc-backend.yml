@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: 05/src
+      yc_token: ${{ secrets.YC_TOKEN }}
+      yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
+      yc_folder: ${{ secrets.YC_FOLDER_ID }}
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
@@ -25,10 +28,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure Yandex Cloud credentials
-        uses: yc-actions/yc-iam-token@v1
-        with:
-          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+#      - name: Configure Yandex Cloud credentials
+#        uses: yc-actions/yc-iam-token@v1
+#        with:
+#          yc-sa-json-credentials: ${{ secrets.YC_KEY }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
