@@ -16,18 +16,16 @@ defaults:
   run:
     working-directory: 05/src
 
-env:
-  TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
-  TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-  TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
-  access_key: ${{ secrets.YC_ACCESS_KEY_ID }}
-  secret_key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
-
 jobs:
 
   terraform:
     runs-on: ubuntu-latest
-
+    env:
+      TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
+      TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
+      TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
+      access_key: ${{ secrets.YC_ACCESS_KEY_ID }}
+      secret_key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -42,17 +40,11 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-        with:
-          TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
-          TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-          TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
+
+
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        with:
-          TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
-          TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-          TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
 
 #  tflint-test:
 #    runs-on: ${{ matrix.os }}
