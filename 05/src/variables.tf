@@ -6,12 +6,14 @@ variable "yc_token" {
 }
 
 variable "yc_cloud_id" {
+  default     = b1gm5cnlfgcnmeq4an1v
   type        = string
   sensitive   = true
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/cloud/get-id"
 }
 
 variable "yc_folder_id" {
+  default     = b1ggvhbs15psoc1vgtkc
   type        = string
   sensitive   = true
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
