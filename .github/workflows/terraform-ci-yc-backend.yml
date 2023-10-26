@@ -35,19 +35,11 @@ jobs:
         with:
           terraform_version: 1.5.7
 
-      - name: Configure Yandex.Cloud credentials
-        uses: yandex-cloud/github-actions/setup@v0.1.0
-        with:
-          yc_token: ${{ secrets.YC_TOKEN }}
-          yc_service_account_key: ${{ secrets.YC_SERVICE_ACCOUNT_KEY }}
-
       - name: Terraform Init
         run: terraform init -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
 
       - name: Terraform Plan
-        run: terraform plan
-
-
+        run: terraform plan -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
