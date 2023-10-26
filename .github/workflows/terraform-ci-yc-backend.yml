@@ -36,6 +36,8 @@ jobs:
 #        uses: yc-actions/yc-iam-token@v1
 #        with:
 #          yc-sa-json-credentials: ${{ secrets.YC_KEY }}
+      - name: "Mirror for YC provider"
+        run: cat <<EOF > ~/.terraformrc \n provider_installation { network_mirror { url = \"https://terraform-mirror.yandexcloud.net/\" include = [\"registry.terraform.io/*/*\"] } direct { exclude = [\"registry.terraform.io/*/*\"] } } \n EOF"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
