@@ -11,7 +11,7 @@ env:
 on:
   push:
     branches:
-      - {{ env.branch }}
+      - ${{ env.branch }}
     paths:
       - '05/src/**'
   pull_request:
