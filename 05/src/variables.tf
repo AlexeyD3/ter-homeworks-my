@@ -62,4 +62,3 @@ variable "nginx_vm" {
     public_ip       = bool
   })
 }
-
