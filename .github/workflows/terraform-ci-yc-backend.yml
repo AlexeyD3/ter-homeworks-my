@@ -48,7 +48,8 @@ jobs:
     - uses: terraform-linters/tflint-load-config-action@v1
       with:
         source-repo: "AlexeyD3/ter-homeworks-my"
-        source-ref: terraform-05
+        source-ref: terraform-hotfix-ci
+        directory: 05/src
     - run: tflint --format=compact --recursive --color #-f compact
 
   checkov-test:
