@@ -11,6 +11,10 @@ on:
       - main
     paths:
       - '05/src/**'
+      -
+defaults:
+  run:
+    working-directory: ${{ env.working-directory }}
 
 jobs:
 
@@ -49,7 +53,6 @@ jobs:
       with:
         source-repo: "AlexeyD3/ter-homeworks-my"
         source-ref: terraform-hotfix-ci
-        source-path: 05/src
     - run: tflint --format=compact --recursive --color #-f compact
 
   checkov-test:
