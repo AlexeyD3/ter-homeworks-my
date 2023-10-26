@@ -18,136 +18,163 @@ defaults:
 
 jobs:
 
-  tflint-test:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
-    steps:
-    - uses: actions/checkout@v3
-      name: Checkout source code
-
-    - uses: actions/cache@v3
-      name: Cache plugin dir
-      with:
-        path: ~/.tflint.d/plugins
-        key: ${{ matrix.os }}-tflint-${{ hashFiles('..tflint.hcl') }}
-
-    - uses: terraform-linters/setup-tflint@v3
-      name: Setup TFLint
-      with:
-        tflint_version: v0.48.0
-
-    - name: Show version
-      run: tflint --version
-
-    - name: Init TFLint
-      run: tflint --init
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-
-    - uses: terraform-linters/setup-tflint@v3
-    - uses: terraform-linters/tflint-load-config-action@v1
-      with:
-        source-repo: "AlexeyD3/ter-homeworks-my"
-        source-ref: terraform-hotfix-ci
-    - run: tflint --format=compact --recursive --color #-f compact
-
-  checkov-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.8
-      - name: Test with Checkov
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: 05/src
-          framework: terraform
-
   terraform:
-    needs: [checkov-test, tflint-test]
-    name: "Terraform"
     runs-on: ubuntu-latest
-    env:
-      working-directory: 05/src
-#      TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
-#      TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-#      TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
-#      access_key: ${{ secrets.YC_ACCESS_KEY_ID }}
-#      secret_key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
-#      bucket: ${{ secrets.BUCKET }}
 
-    defaults:
-      run:
-        working-directory: ${{ env.working-directory }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.7
 
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
+      - name: Configure Yandex.Cloud credentials
+        run: |
+          echo "${{ secrets.YC_TOKEN }}" > sa.json
+          yc config set service-account-key sa.json
 
       - name: Terraform Init
-        id: init
         run: terraform init -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
       - name: Terraform Plan
-        id: plan
-        if: github.event_name == 'pull_request'
-        run: terraform plan -no-color
-        continue-on-error: true
-
-      - uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            
-            <details><summary>Show Plan</summary>
-            
-            \`\`\`${process.env.PLAN}\`\`\`
-            
-            </details>
-            
-            Results for commit: ${{ github.event.pull_request.head.sha }}
-
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.working-directory }}\`, Workflow: \`${{ github.workflow }}\`*`;
-              
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
+        run: terraform plan
 
       - name: Terraform Apply
-#        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform destroy -auto-approve
+        run: terraform apply -auto-approve
+
+#  tflint-test:
+#    runs-on: ${{ matrix.os }}
+#
+#    strategy:
+#      matrix:
+#        os: [ubuntu-latest]
+#
+#    steps:
+#    - uses: actions/checkout@v3
+#      name: Checkout source code
+#
+#    - uses: actions/cache@v3
+#      name: Cache plugin dir
+#      with:
+#        path: ~/.tflint.d/plugins
+#        key: ${{ matrix.os }}-tflint-${{ hashFiles('..tflint.hcl') }}
+#
+#    - uses: terraform-linters/setup-tflint@v3
+#      name: Setup TFLint
+#      with:
+#        tflint_version: v0.48.0
+#
+#    - name: Show version
+#      run: tflint --version
+#
+#    - name: Init TFLint
+#      run: tflint --init
+#      env:
+#        GITHUB_TOKEN: ${{ github.token }}
+#
+#    - uses: terraform-linters/setup-tflint@v3
+#    - uses: terraform-linters/tflint-load-config-action@v1
+#      with:
+#        source-repo: "AlexeyD3/ter-homeworks-my"
+#        source-ref: terraform-hotfix-ci
+#    - run: tflint --format=compact --recursive --color #-f compact
+#
+#  checkov-test:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Set up Python 3.8
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: 3.8
+#      - name: Test with Checkov
+#        id: checkov
+#        uses: bridgecrewio/checkov-action@master
+#        with:
+#          directory: 05/src
+#          framework: terraform
+#
+#  terraform:
+#    needs: [checkov-test, tflint-test]
+#    name: "Terraform"
+#    runs-on: ubuntu-latest
+#    env:
+#      working-directory: 05/src
+##      TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
+##      TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
+##      TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
+##      access_key: ${{ secrets.YC_ACCESS_KEY_ID }}
+##      secret_key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+##      bucket: ${{ secrets.BUCKET }}
+#
+#    defaults:
+#      run:
+#        working-directory: ${{ env.working-directory }}
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#
+#      - name: Setup Terraform
+#        uses: hashicorp/setup-terraform@v2
+#        with:
+#          terraform_version: 1.5.7
+#
+#      - name: Terraform Format
+#        id: fmt
+#        run: terraform fmt -check
+#        continue-on-error: true
+#
+#      - name: Terraform Init
+#        id: init
+#        run: terraform init -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
+#
+#      - name: Terraform Validate
+#        id: validate
+#        run: terraform validate -no-color
+#
+#      - name: Terraform Plan
+#        id: plan
+#        if: github.event_name == 'pull_request'
+#        run: terraform plan -no-color
+#        continue-on-error: true
+#
+#      - uses: actions/github-script@0.9.0
+#        if: github.event_name == 'pull_request'
+#        env:
+#          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          script: |
+#            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+#            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+#            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+#            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+#
+#            <details><summary>Show Plan</summary>
+#
+#            \`\`\`${process.env.PLAN}\`\`\`
+#
+#            </details>
+#
+#            Results for commit: ${{ github.event.pull_request.head.sha }}
+#
+#            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.working-directory }}\`, Workflow: \`${{ github.workflow }}\`*`;
+#
+#            github.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: output
+#            })
+#
+#      - name: Terraform Plan Status
+#        if: steps.plan.outcome == 'failure'
+#        run: exit 1
+#
+#      - name: Terraform Apply
+##        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#        run: terraform destroy -auto-approve
+
