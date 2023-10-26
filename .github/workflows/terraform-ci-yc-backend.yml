@@ -21,8 +21,8 @@ jobs:
       yc_token: ${{ secrets.YC_TOKEN }}
       yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
       yc_folder: ${{ secrets.YC_FOLDER_ID }}
-      accessKeyId: ${{ secrets.YC_ACCESS_KEY_ID }}
-      secretAccessKey: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+      access_key: ${{ secrets.YC_ACCESS_KEY_ID }}
+      secret_key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
       bucket: ${{ secrets.BUCKET }}
 
     defaults:
