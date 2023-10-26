@@ -1,12 +1,4 @@
-name: "Terraform CI/CD Backend with tflint & checkov tests"
-
-env:
-  working-directory: 05/src
-  yc_token: ${{ secrets.YC_TOKEN }}
-  yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-  yc_folder: ${{ secrets.YC_FOLDER_ID }}
-  branch: terraform-hotfix-ci
-  source-repo: "AlexeyD3/ter-homeworks-my"
+name: "Terraform CI/CD Backend"
 
 on:
   push:
@@ -22,7 +14,7 @@ on:
 
 defaults:
   run:
-    working-directory: ${{ env.working-directory }}
+    working-directory: 05/src
 
 jobs:
 
@@ -59,8 +51,8 @@ jobs:
     - uses: terraform-linters/setup-tflint@v3
     - uses: terraform-linters/tflint-load-config-action@v1
       with:
-        source-repo: ${{ env.source-repo }}
-        source-ref: ${{ env.branch }}
+        source-repo: "AlexeyD3/ter-homeworks-my"
+        source-ref: terraform-hotfix-ci
     - run: tflint --format=compact --recursive --color #-f compact
 
   checkov-test:
@@ -75,18 +67,18 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: ${{ env.working-directory }}
+          directory: 05/src
           framework: terraform
 
   terraform:
     needs: [checkov-test, tflint-test]
     name: "Terraform"
     runs-on: ubuntu-latest
-#    env:
-#      working-directory: 05/src
-#      yc_token: ${{ secrets.YC_TOKEN }}
-#      yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-#      yc_folder: ${{ secrets.YC_FOLDER_ID }}
+    env:
+      working-directory: 05/src
+      yc_token: ${{ secrets.YC_TOKEN }}
+      yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
+      yc_folder: ${{ secrets.YC_FOLDER_ID }}
 #      access_key: ${{ secrets.YC_ACCESS_KEY_ID }}
 #      secret_key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
 #      bucket: ${{ secrets.BUCKET }}
