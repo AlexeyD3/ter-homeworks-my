@@ -1,9 +1,7 @@
 name: "Terraform CI/CD Backend"
 
 env:
-  TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
-  TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
-  TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
+  JSON_KEY: ${{ YC_SERVICE_ACCOUNT_KEY }}
 
 on:
   push:
@@ -36,8 +34,6 @@ jobs:
           terraform_version: 1.5.7
 
       - name: Configure Yandex.Cloud credentials
-        env:
-          JSON_KEY: ${{ YC_SERVICE_ACCOUNT_KEY }}
         run: |
           echo $JSON_KEY > ~/.authorized_key.json
 
