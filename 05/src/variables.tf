@@ -1,9 +1,4 @@
 ###cloud vars
-#variable "yc_token" {
-#  type        = string
-#  sensitive   = true
-#  description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
-#}
 
 variable "yc_cloud_id" {
   default     = "b1gm5cnlfgcnmeq4an1v"
