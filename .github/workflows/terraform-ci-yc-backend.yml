@@ -42,9 +42,17 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
+        with:
+          TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
+          TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
+          TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        with:
+          TF_VAR_yc_token: ${{ secrets.YC_TOKEN }}
+          TF_VAR_yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
+          TF_VAR_yc_folder: ${{ secrets.YC_FOLDER_ID }}
 
 #  tflint-test:
 #    runs-on: ${{ matrix.os }}
