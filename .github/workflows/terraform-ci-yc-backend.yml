@@ -39,6 +39,12 @@ jobs:
         run: |
           mkdir tmp && echo $JSON_KEY > ./tmp/.authorized_key.json
 
+      - name: Add SSH pub key
+        env:
+          SSH_KEY: ${{ secrets.SSH_PUB_KEY_YC }}
+        run: |
+          echo $SSH_KEY > ./tmp/id_ed25519.pub
+
       - name: Terraform Init
         run: terraform init -backend-config="access_key=${{ secrets.YC_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.YC_SECRET_ACCESS_KEY }}"
 
