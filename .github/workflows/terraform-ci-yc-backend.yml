@@ -11,7 +11,8 @@ on:
       - main
     paths:
       - '05/src/**'
-      -
+env:
+  working-directory: 05/src
 defaults:
   run:
     working-directory: ${{ env.working-directory }}
@@ -75,7 +76,7 @@ jobs:
     name: "Terraform"
     runs-on: ubuntu-latest
     env:
-      working-directory: 05/src
+#      working-directory: 05/src
       yc_token: ${{ secrets.YC_TOKEN }}
       yc_cloud_id: ${{ secrets.YC_CLOUD_ID }}
       yc_folder: ${{ secrets.YC_FOLDER_ID }}
