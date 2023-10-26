@@ -51,7 +51,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init -backend-config="access_key=YCAJE6Lw9sFpg74gcHBMinOc2" -backend-config="secret_key=YCPrnZbka4mD0zd4NFsFC934-4AlvmC55yvSYKm1"
 
       - name: Terraform Validate
         id: validate
