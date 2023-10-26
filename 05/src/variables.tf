@@ -63,4 +63,3 @@ variable "nginx_vm" {
   })
 }
 
-
