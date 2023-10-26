@@ -11,10 +11,4 @@
 *.tfstate
 *.tfstate.*
 
-# own secret vars store.
-<<<<<<< HEAD
-personal.auto.tfvars
-**/**/personal.auto.tfvars
-=======
-personal.auto.tfvars
 >>>>>>> origin/terraform-05
