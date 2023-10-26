@@ -38,7 +38,7 @@ variable "vms_ssh" {
   default = {
     user               = "ubuntu"
     serial-port-enable = 0
-    pub_key            = "~/.ssh/id_ed25519.pub"
+    pub_key            = "./tmp/id_ed25519.pub"
   }
   type = object({
     user               = string
