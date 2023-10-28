@@ -4,6 +4,7 @@ resource "yandex_mdb_mysql_database" "db1" {
 }
 
 resource "yandex_mdb_mysql_user" "client" {
+  depends_on = [yandex_mdb_mysql_database.db1]
   cluster_id = var.cluster_id
   name       = var.user_name
   password   = var.user_password

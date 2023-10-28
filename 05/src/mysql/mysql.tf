@@ -15,9 +15,9 @@ resource "yandex_mdb_mysql_cluster" "netology" {
     dynamic "host" {
       for_each = range(local.host_count)
       content {
-        zone             = element(var.subnet_zones, "${host.key + 1}")
-        subnet_id        = element(var.subnet_ids, "${host.key + 1}")
-        assign_public_ip = true
+        zone             = element(var.subnet_zones, host.key + 1)
+        subnet_id        = element(var.subnet_ids, host.key + 1)
+        assign_public_ip = false
       }
     }
 

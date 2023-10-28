@@ -1,10 +1,15 @@
 terraform {
   required_providers {
     yandex = {
-      source = "yandex-cloud/yandex"
+      source  = "yandex-cloud/yandex"
+      version = "0.100.0"
+    }
+    template = {
+      source = "hashicorp/template"
+      version = "2.2.0"
     }
   }
-  required_version = ">=0.13"
+  required_version = "=1.5.7"
   backend "s3" {
     endpoint = "storage.yandexcloud.net"
     bucket = "tfstate-netology-ad"
@@ -14,8 +19,8 @@ terraform {
     skip_region_validation = true
     skip_credentials_validation = true
 
-#    dynamodb_endpoint = "https://docapi.serverless.yandexcloud.net/ru-central1/b1gm5cnlfgcnmeq4an1v/etn1oq33gdbq5bu4bk5t"
-#    dynamodb_table = "state-lock-table"
+    dynamodb_endpoint = "https://docapi.serverless.yandexcloud.net/ru-central1/b1gm5cnlfgcnmeq4an1v/etn1oq33gdbq5bu4bk5t"
+    dynamodb_table = "state-lock-table"
   }
 }
 
